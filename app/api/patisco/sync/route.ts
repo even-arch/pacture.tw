@@ -51,13 +51,14 @@ export async function POST(_req: NextRequest) {
           INSERT INTO proforma_invoices (
             user_id, pi_id, pi_no, po_id, po_no,
             product_categories, customer_region, customer_language,
-            status, raw_data, synced_at
+            status, raw_data, created_date, synced_at
           ) VALUES (
             ${userId}, ${pi.id}, ${pi.no},
             ${pi.po?.id ?? null}, ${pi.po?.no ?? null},
             ${categories}, ${customerCountry}, ${null},
             ${statusMap[pi.status] ?? pi.status},
             ${detail as never},
+            ${pi.createdDate ?? null},
             now()
           )
           ON CONFLICT (user_id, pi_id) DO UPDATE SET
@@ -65,6 +66,7 @@ export async function POST(_req: NextRequest) {
             customer_region    = EXCLUDED.customer_region,
             status             = EXCLUDED.status,
             raw_data           = EXCLUDED.raw_data,
+            created_date       = EXCLUDED.created_date,
             synced_at          = now()
         `
         synced++

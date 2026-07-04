@@ -18,6 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                 <a href="/dashboard" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">概覽</a>
                 <a href="/dashboard/orders" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">訂單</a>
                 <a href="/dashboard/copy" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">文案</a>
+                <a href="/dashboard/repair" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">維修助理</a>
               </nav>
             )}
           </div>

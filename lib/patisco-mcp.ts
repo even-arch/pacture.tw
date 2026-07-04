@@ -154,4 +154,37 @@ export async function getOrderDetail(
   }
 }
 
+export type { McpSession }
 export { createSession }
+
+// ── 維修助理用：自動建立報價單（尚未可用）──────────────────────────────────────
+//
+// Patisco MCP Server 目前只開放讀取型 Tool，還沒有 create_quotation 這個寫入 Tool
+// （見維修助理規劃文件「阻擋項一」）。保留這個函式簽名，等對方開發完成後，
+// 把函式內容換成真正的 mcpRequest(session, id, 'tools/call', { name: 'create_quotation', arguments: {...} })，
+// 呼叫端（lib/repair-assistant.ts、app/api/repair/quote）不需要跟著改。
+
+export interface CreateQuotationInput {
+  jwt: string
+  apiKey: string
+  items: Array<{ sku: string; qty: number }>
+  sourceSessionId: string
+}
+
+export interface CreateQuotationResult {
+  ok: boolean
+  reason?: 'not_implemented'
+  message: string
+  qtReference?: string
+}
+
+export async function createQuotationDraft(
+  input: CreateQuotationInput
+): Promise<CreateQuotationResult> {
+  console.log(`[repair-assistant] create_quotation requested (session ${input.sourceSessionId}, ${input.items.length} item(s)) — MCP Tool not yet available`)
+  return {
+    ok: false,
+    reason: 'not_implemented',
+    message: '此功能需等待 Patisco MCP Server 開放 create_quotation Tool 後才能使用，目前請聯繫業務人工建立報價單。',
+  }
+}
